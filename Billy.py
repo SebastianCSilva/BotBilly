@@ -1,4 +1,4 @@
-# Work with Python 3.6
+# Work with Python 3.7
 import random
 import asyncio
 import os

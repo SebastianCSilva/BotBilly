@@ -2,7 +2,8 @@ import random
 import asyncio
 import discord
 from discord.ext import commands
-
+import aiohttp
+import json
 
 class Comandos(commands.Cog):
 
@@ -39,6 +40,36 @@ class Comandos(commands.Cog):
                  "https://www.youtube.com/watch?v=SVHj64ltMb8",
                  "https://www.youtube.com/watch?v=m1_HHVoPjho"]
         await message.send(random.choice(lista))
+
+    @commands.command()
+    async def btc(self, ctx):
+        url = 'https://api.coindesk.com/v1/bpi/currentprice/BTC.json'
+
+        async with aiohttp.ClientSession() as session:  # Async HTTP request
+
+            raw_response = await session.get(url)
+
+            response = await raw_response.text()
+
+            response = json.loads(response)
+
+            await ctx.send("El precio en dolares de Bitcoin es: $" + response['bpi']['USD']['rate'])
+
+    @commands.command()
+    async def eth(self, ctx):
+        url = 'https://api.cryptonator.com/api/ticker/eth-usd'
+
+        async with aiohttp.ClientSession() as session:  # Async HTTP request
+
+            raw_response = await session.get(url)
+
+            response = await raw_response.text()
+
+            response = json.loads(response)
+
+            await ctx.send("El precio en dolares de Ethereum es: $" + response['ticker']['price'])
+
+
 
 
 def setup(client):
